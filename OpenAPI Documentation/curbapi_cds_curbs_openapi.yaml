@@ -27,7 +27,8 @@ paths:
       operationId: getCurbZones
       security:
         - api_key: []
-      summary: "ZONES: Query curb zones by geography, city, id, etc."
+      summary: Zones
+      description: Query curb zones by geography, city, id, etc.
       parameters:
         - name: curbiq_token
           in: query
@@ -135,10 +136,11 @@ paths:
 
   /curbs/policies:
     get:
+      summary: Policies
+      description: Returns Curb Policies associated with zones in the specified geographic region.
       operationId: getCurbPolicies
       security:
         - api_key: []
-      summary: Returns Curb Policies associated with zones in the specified geographic region.
       parameters:
         - name: curbiq_token
           in: query
@@ -237,7 +239,7 @@ paths:
       operationId: getEvents
       security:
         - api_key: []
-      summary: Retrieve events data
+      summary: Events
       description: >-
         Access Events data in the Curb Data Specification format. Requires either
         a curb place parameter (`curb_area_id`, `curb_zone_id`, `curb_space_id`) or
@@ -305,7 +307,7 @@ paths:
       security: 
         - api_key: []
 
-      summary: Aggregate metrics data retrieval
+      summary: Aggregates
       description: >-
         Retrieve aggregate metrics data within specified parameters. Note that
         start and end times are formatted as epoch seconds, defined as "seconds
