@@ -3,7 +3,7 @@ info:
   title: CurbIQ's Curb API
   description: |
 
-    This is CurbIQ's ⚡_Curb API_⚡ to access curb demand and supply data in the 
+    This is CurbIQ's ⚡**Curb API**⚡ to access curb demand and supply data in the 
     Open Mobility Foundation's Curb Data Specification (CDS) format.
     
 
@@ -12,11 +12,11 @@ info:
     an API key, which is provided to you when you register for the API.
 
 
-    👩‍💻 To request access to the API, please contact CurbIQ at [contact@curbiq.io]
-    with the following included in the subject line: "Curb API Access Request".
+    👩‍💻 To request access to the API, please contact CurbIQ at contact@curbiq.io
+    with the following included in the subject line: "Curb API Token Request".
 
 
-    For more information on the Curb Data Specification, visit
+    For more information on the **Curb Data Specification**, visit
     https://github.com/openmobilityfoundation/curb-data-specification/blob/main/README.md.
 
 
