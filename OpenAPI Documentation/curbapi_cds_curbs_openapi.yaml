@@ -12,7 +12,8 @@ info:
     an API key, which is provided to you when you register for the API.
 
 
-    - To request access to the API, please [email us](mailto:contact@curbiq.io) and include *Curb API Token Request* in the subject line. 🔑 
+    - To request access to the API, please 
+      <a href="mailto:contact@curbiq.io?subject=CurbIQ API Token Request">email us</a> and include *Curb API Token Request* in the subject line. 🔑 
 
 
     - For more information on the **Curb Data Specification**, visit the [CDS Github repo](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/README.md). 📐
@@ -53,7 +54,7 @@ paths:
           - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
-          - This endpoint is **paginated**. Visit our [pagination section](#/schemas/PaginationInfo) 
+          - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
             for more information on paginating with the Curb API.
 
       parameters:
@@ -201,8 +202,8 @@ paths:
           - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
-          - This endpoint is **paginated**. For information on the pagination response format,
-            see the schema in `#/components/schemas/PaginationInfo'.
+          - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with the Curb API.
 
 
       operationId: getCurbPolicies
@@ -337,8 +338,8 @@ paths:
           - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
-          - This endpoint is **paginated**. For information on the pagination response format,
-            see the schema in `#/components/schemas/PaginationInfo'.
+          - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with the Curb API.
 
 
                 
@@ -432,8 +433,8 @@ paths:
           - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
-          - This endpoint is **paginated**. For information on the pagination response format,
-            see the schema in `#/components/schemas/PaginationInfo'.
+          - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with the Curb API.
 
 
       parameters:
@@ -554,11 +555,11 @@ components:
         in the response object.
 
         - When the response object is in JSON format, the response will include
-        the current page number and the total number of pages as variables
-        'page_num' and 'total_pages', respectively.
+          the current page number and the total number of pages as variables
+          `page_num` and `total_pages`, respectively.
 
         - When the response object is in CSV format, the file name will be in the format
-        "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv", indicating the current and total pages.
+          "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv", indicating the current and total pages.
 
       properties:
         response_size:
@@ -570,11 +571,12 @@ components:
         page_num:
           type: integer
           description: |
-            The page number for paginated responses.
+            The page number for paginated responses. Must be less than or equal to
+            the total number of pages.
         total_pages:
           type: integer
           description: |
-            The total number of pages for the query at the current response_size.
+            The total number of pages for the query at the current `response_size`.
 
   securitySchemes:
     api_key:
