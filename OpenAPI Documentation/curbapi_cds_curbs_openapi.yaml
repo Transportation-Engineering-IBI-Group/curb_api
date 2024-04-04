@@ -27,7 +27,7 @@ paths:
       operationId: getCurbZones
       security:
         - api_key: []
-      summary: Returns Curb Zones in the specified geographic region.
+      summary: "ZONES: Query curb zones by geography, city, id, etc."
       parameters:
         - name: curbiq_token
           in: query
@@ -98,14 +98,34 @@ paths:
             format: int
           required: false
           description: The number of policy objects to return. Maximum is 100, default is 20.
-        - name: page_num
+        - name: city_name
+          in: query
+          schema:
+            type: string
+          required: false
+          description: The name of the city in which you would like responses.
+        - name: curb_zone_id
+          in: query
+          schema:
+            type: string
+            format: UUID
+          required: false
+          description: The specific Curb Zone object to query.
+        - name: segment_id
           in: query
           schema:
             type: number
             format: int
           required: false
-          description: For pagination; when the total number of policy objects matching the query exceed the response size, users can paginate to receive the next batch of policies. Current page_num and total_pages are returned in the API response object.
-      responses:
+          description: The CurbIQ segment of the curb zone to query.
+        - name: parking_angle
+          in: query
+          schema:
+            type: string
+          required: false
+          description: The parking angle of the zones to query.
+      
+      responses:  
         '400':
           description: Request failed.
         '200':
