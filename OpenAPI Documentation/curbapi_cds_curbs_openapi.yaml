@@ -1,7 +1,20 @@
 openapi: 3.0.1
 info:
   title: CurbIQ's Curb API
-  description: CurbIQ's API to access curb demand and supply data in the Curb Data Specification format, as defined at https://github.com/openmobilityfoundation/curb-data-specification/tree/main/curbs
+  description: >-
+    This is CurbIQ's ⚡*Curb API*⚡ to access curb demand and supply data in the 
+    Open Mobility Foundation's Curb Data Specification (CDS) format.
+    
+    The API provides access to curb supply, curb policies, real-time curb occupancy data, and
+    hourly metrics on curb usage by zone, area, or space. The API is secured with
+    an API key, which is provided to you when you register for the API.
+
+    👩‍💻 To request access to the API, please contact CurbIQ at [contact@curbiq.io]
+    with the following included in the subject line: "Curb API Access Request".
+
+    For more information on the Curb Data Specification, visit
+    https://github.com/openmobilityfoundation/curb-data-specification/blob/main/README.md.
+
   version: 1.3.0
   license: 
     name: Creative Commons Attribution-NonCommercial (CC BY-NC)
