@@ -3,21 +3,19 @@ info:
   title: CurbIQ's Curb API
   description: |
 
-    This is CurbIQ's ⚡**Curb API**⚡ to access curb demand and supply data in the 
-    Open Mobility Foundation's Curb Data Specification (CDS) format.
+    This is CurbIQ's ⚡ **Curb API** ⚡ to access curb demand and supply data in the 
+    Open Mobility Foundation's **Curb Data Specification** (CDS) format.
     
 
-    The API provides access to curb supply, curb policies, real-time curb occupancy data, and
-    hourly metrics on curb usage by zone, area, or space. The API is secured with
+    The API provides access to **curb supply**, **curb policies**, **real-time curb occupancy data**, 
+    and **hourly metrics** on curb usage by zone, area, or space. The API is secured with
     an API key, which is provided to you when you register for the API.
 
 
-    👩‍💻 To request access to the API, please contact CurbIQ at contact@curbiq.io
-    with the following included in the subject line: "Curb API Token Request".
+    - To request access to the API, please [email us](mailto:contact@curbiq.io) and include *Curb API Token Request* in the subject line. 🔑 
 
 
-    For more information on the **Curb Data Specification**, visit
-    https://github.com/openmobilityfoundation/curb-data-specification/blob/main/README.md.
+    - For more information on the **Curb Data Specification**, visit the [CDS Github repo](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/README.md). 📐
 
 
   version: 1.3.0
@@ -28,7 +26,7 @@ info:
     
 servers:
   - url: https://yzij4d8qel.execute-api.ca-central-1.amazonaws.com/v1
-    description: CurbIQ's Curb API (v1)
+    description: CurbIQ's Curb API
 
 
 tags:
@@ -46,7 +44,18 @@ paths:
       security:
         - api_key: []
       summary: zones
-      description: Query curb zones by geography, city, id, etc.
+      description: |
+        Query curb ***zones*** by geography, city, id, etc.
+        
+        ---
+
+        #### Useful Tips
+          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+            You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
+            date/times and epoch seconds.
+          - This endpoint is **paginated**. For information on the pagination response format,
+            see the schema in `#/components/schemas/PaginationInfo'.
+            
       parameters:
         - name: curbiq_token
           in: query
@@ -74,7 +83,11 @@ paths:
             type: number
             format: float
           required: false
-          description: Radius of the search circle. This parameter is conditionally required if either 'lat' or 'lng' is specified.
+          description: |
+            The radius of the query circle in centimeters.
+            
+            CurbIQ also supports the following alternative radius parameters:
+            rad_mi (miles), rad_km (kilometers), rad_m (meters).
         - name: min_lat
           in: query
           schema:
@@ -114,9 +127,20 @@ paths:
           in: query
           schema:
             type: number
+            format: integer
+          description: |
+            The maximum size of the response.
+            
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
+        - name: page_num
+          in: query
+          schema:
+            type: number
             format: int
-          required: false
-          description: The number of policy objects to return. Maximum is 100, default is 20.
+          description: |
+            The page number for paginated responses.
+            
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
         - name: city_name
           in: query
           schema:
@@ -134,7 +158,7 @@ paths:
           in: query
           schema:
             type: number
-            format: int
+            format: integer
           required: false
           description: The CurbIQ segment of the curb zone to query.
         - name: parking_angle
@@ -155,7 +179,32 @@ paths:
   /curbs/policies:
     get:
       summary: policies
-      description: Returns Curb Policies associated with zones in the specified geographic region.
+      description: |
+        Pull curb ***policies*** in the CDS format 🅿
+
+        ---
+
+        ### Requirements
+        
+        Along with a `curbiq_token`, this endpoint requires, at minimum:
+          - `start_time` and `end_time`, *or*
+          - `city_name`/a curb place parameter*.
+        
+        If a curb place parameter* is not provided, the total time between 
+        `start_time` and `end_time` **cannot exceed one day** (86400 seconds). ⏲ 
+        
+        **A **curb place parameter** is one of: `curb_area_id`, `curb_zone_id`, `curb_space_id`.*
+        
+        ---
+
+        #### Useful Tips
+          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+            You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
+            date/times and epoch seconds.
+          - This endpoint is **paginated**. For information on the pagination response format,
+            see the schema in `#/components/schemas/PaginationInfo'.
+
+
       operationId: getCurbPolicies
       security:
         - api_key: []
@@ -194,7 +243,11 @@ paths:
             type: number
             format: float
           required: false
-          description: Radius of the search circle. This parameter is conditionally required if either 'lat' or 'lng' is specified.
+          description: |
+            The radius of the query circle in centimeters.
+            
+            CurbIQ also supports the following alternative radius parameters:
+            rad_mi (miles), rad_km (kilometers), rad_m (meters).
         - name: min_lat
           in: query
           schema:
@@ -236,14 +289,20 @@ paths:
             type: number
             format: int
           required: false
-          description: The number of zone objects to return. Maximum is 100, default is 20.
+          description: |
+            The number of zone objects to return. Maximum is 100, default is 20.
+
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
         - name: page_num
           in: query
           schema:
             type: number
             format: int
           required: false
-          description: For pagination; when the total number of zone objects matching the query exceed the response size, users can paginate to receive the next batch of zones. Current page_num and total_pages are returned in the API response object.
+          description: |
+            The page number for paginated responses. Default is 1.
+            
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
       responses:
         '200':
           description: A successful response containing Curb Zones.
@@ -258,12 +317,33 @@ paths:
       security:
         - api_key: []
       summary: events
-      description: >-
-        Access Events data in the Curb Data Specification format. Requires either
-        a curb place parameter (`curb_area_id`, `curb_zone_id`, `curb_space_id`) or
-        `city_name` along with `start_time` and `end_time`. The time parameters must be formatted
-        as epoch seconds ("seconds since January 1, 1970 @ 0:00:00 UTC"). For more details
-        on pagination for large queries, refer to the API documentation.
+      description: |
+        Pull curb ***events*** in the CDS format 🚘
+
+        ---
+        
+        **Along with a `curbiq_token`, this endpoint requires, at minimum:**
+          - `start_time` and `end_time`, *or*
+          - `city_name`/a curb place parameter*.
+        
+        If a curb place parameter* is not provided, the total time between 
+        `start_time` and `end_time` **cannot exceed one day** (86400 seconds). ⏲ 
+        
+        **A **curb place parameter** is one of: `curb_area_id`, `curb_zone_id`, `curb_space_id`.*
+        
+        ---
+
+        **Useful Tips**
+          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+            You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
+            date/times and epoch seconds.
+          - This endpoint is **paginated**. For information on the pagination response format,
+            see the schema in `#/components/schemas/PaginationInfo'.
+
+
+                
+   
+        
       parameters:
         - in: query
           name: curbiq_token
@@ -280,11 +360,13 @@ paths:
           name: start_time
           schema:
             type: integer
+            format: epoch seconds
           description: Start time for the query period, in epoch seconds.
         - in: query
           name: end_time
           schema:
             type: integer
+            format: epoch seconds
           description: End time for the query period, in epoch seconds.
         - in: query
           name: curb_area_id
@@ -305,12 +387,18 @@ paths:
           name: response_size
           schema:
             type: integer
-          description: Default is 100. The maximum response size is 250.
+          description: |
+            The size of the response. Default is 100, maximum is 250.
+            
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
         - in: query
           name: page_num
           schema:
             type: integer
-          description: Page number for paginated responses, default is 1.
+          description: |
+            Page number for paginated responses. Default is 1.
+
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
       responses:
         '200':
           description: Successful response, returned as JSON.
@@ -326,13 +414,28 @@ paths:
         - api_key: []
 
       summary: aggregates
-      description: >-
-        Retrieve aggregate metrics data within specified parameters. Note that
-        start and end times are formatted as epoch seconds, defined as "seconds
-        since January 1, 1970 @ 0:00:00, UTC". For converting between date/times
-        and epoch seconds, visit https://www.epochconverter.com/. For queries
-        resulting in large datasets, pagination is used; refer to the
-        'Pagination of Large Queries' section below for more details.
+      description:  |
+        Access **aggregated metric data** in the CDS format 📊
+        
+        ---
+
+        **Along with a `curbiq_token`, this endpoint requires, at minimum:**
+          - `curb_place_type` and `curb_place_id`, *or*
+          - `start_time` and `end_time`.
+        
+        If `curb_place_type` and `curb_place_id` are not provided, the total time between 
+        `start_time` and `end_time` **cannot exceed one day** (86400 seconds) ⏲ 
+
+        ---
+
+        **Useful Tips**
+          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+            You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
+            date/times and epoch seconds.
+          - This endpoint is **paginated**. For information on the pagination response format,
+            see the schema in `#/components/schemas/PaginationInfo'.
+
+
       parameters:
         - in: query
           name: curbiq_token
@@ -348,25 +451,26 @@ paths:
         - in: query
           name: start_time
           schema:
-            type: string
-            format: timestamp
+            type: integer
+            format: epoch seconds
           description: Timestamp of the start of the query period.
         - in: query
           name: end_time
           schema:
-            type: string
-            format: timestamp
+            type: integer
+            format: epoch seconds
           description: Timestamp of the end of the query period.
         - in: query
           name: curb_place_type
           schema:
             type: string
-          description: The type of element to query data from.
+          description: The type of element to query data from. One of 'area', 'zone', or 'space'.
         - in: query
           name: curb_place_id
           schema:
             type: string
-          description: The UUID of the curb place specified.
+            format: UUID
+          description: The curb_area_id, curb_zone_id, or curb_space_id to query data from.
         - in: query
           name: min_lat
           schema:
@@ -407,28 +511,28 @@ paths:
           name: radius
           schema:
             type: integer
-          description: >-
-            The radius of the query circle in centimeters. Alternative query 
-            parameters support other units as followed:
+          description: |
+            The radius of the query circle in centimeters.
+            
+            CurbIQ also supports the following alternative radius parameters:
             rad_mi (miles), rad_km (kilometers), rad_m (meters).
         - in: query
           name: response_size
           schema:
             type: integer
-          description: The maximum size of the response.
+          description: |
+            The maximum size of the response.
+            
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
         - in: query
           name: page_num
           schema:
             type: integer
-          description: >-
-            The page number for paginated responses. Responses must be fetched in
-            multiple API requests when the total size of query results exceeds the
-            response size. If the aggregate data is returned as a csv (default),
-            the file name will be in the format
-            "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv", indicating the current
-            and total pages. If the aggregate data is returned as a JSON object,
-            the response will include the current page number and the total number
-            as variables 'page_num' and 'total_pages'.
+          description: |
+            The page number for paginated responses.
+            
+            See the pagination schema in `#/components/schemas/PaginationInfo'.
+
       responses:
         '200':
           description: Successful response. Aggregates as comma-separated values.
@@ -441,15 +545,37 @@ components:
   schemas:
     PaginationInfo:
       type: object
+      description: |
+        This API supports paginated responses. When the total number of objects
+        matching the query exceeds the response size, users can paginate to receive
+        the next batch of objects.
+
+        Users can check the current page number and the total number of pages
+        in the response object.
+
+        When the response object is in JSON format, the response will include
+        the current page number and the total number of pages as variables
+        'page_num' and 'total_pages', respectively.
+
+        When the response object is in CSV format, the file name will be in the format
+        "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv", indicating the current and total pages.
+
       properties:
+        response_size:
+          type: integer
+          description: |
+            The number of objects to return in the response. The default and
+            maximum values vary by endpoint and are specified in each endpoint's
+            documentation.
         page_num:
           type: integer
-          description: >-
-            The page number for paginated responses. Responses must be fetched in
-            multiple API requests when the total size of query results exceeds the
-            response size. The file name in the format
-            "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv" indicates the current and total
-            pages.
+          description: |
+            The page number for paginated responses.
+        total_pages:
+          type: integer
+          description: |
+            The total number of pages for the query at the current response_size.
+
   securitySchemes:
     api_key:
       type: apiKey
