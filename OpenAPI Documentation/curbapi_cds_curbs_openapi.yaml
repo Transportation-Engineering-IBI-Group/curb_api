@@ -11,12 +11,22 @@ info:
 servers:
   - url: https://yzij4d8qel.execute-api.ca-central-1.amazonaws.com/v1
     description: CurbIQ's Curb API (v1)
+
+
+tags:
+  - description: Get information about curb policies and supply.
+    name: curbs
+  - description: Real-time curb occupancy data.
+    name: events
+  - description: Hourly metrics on curb usage by zone, area, or space.
+    name: metrics
+  
 paths:
   /curbs/zones:
     get:
       operationId: getCurbZones
       security:
-        - {}
+        - api_key: []
       summary: Returns Curb Zones in the specified geographic region.
       parameters:
         - name: curbiq_token
@@ -100,12 +110,14 @@ paths:
           description: Request failed.
         '200':
           description: A successful response containing Curb Zones.
+      tags:
+        - curbs
 
   /curbs/policies:
     get:
       operationId: getCurbPolicies
       security:
-        - {}
+        - api_key: []
       summary: Returns Curb Policies associated with zones in the specified geographic region.
       parameters:
         - name: curbiq_token
@@ -197,12 +209,14 @@ paths:
           description: A successful response containing Curb Zones.
         '400':
           'description': 'Request failed.'
+      tags:
+        - curbs
 
   /events/events:
     get:
       operationId: getEvents
       security:
-        - {}
+        - api_key: []
       summary: Retrieve events data
       description: >-
         Access Events data in the Curb Data Specification format. Requires either
@@ -262,13 +276,15 @@ paths:
           description: Successful response, returned as JSON.
         '400':
           description: Bad request, usually an error in the query parameters.
-
+      tags:
+        - events
   
   /metrics/aggregates:
     get:
       operationId: getAggregates
       security: 
-        -  {}
+        - api_key: []
+
       summary: Aggregate metrics data retrieval
       description: >-
         Retrieve aggregate metrics data within specified parameters. Note that
@@ -378,7 +394,8 @@ paths:
           description: Successful response. Aggregates as comma-separated values.
         '400':
           description: Bad request. Error in the query parameters such as an invalid token.
-     
+      tags:
+        - metrics
 
 components:
   schemas:
@@ -393,6 +410,11 @@ components:
             response size. The file name in the format
             "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv" indicates the current and total
             pages.
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: query
+      name: curbiq_token
 
 externalDocs:
   description: Reference for Epoch Time Conversion
