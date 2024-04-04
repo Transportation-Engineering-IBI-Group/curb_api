@@ -1,7 +1,8 @@
 openapi: 3.0.1
 info:
   title: CurbIQ's Curb API
-  description: >-
+  description: >
+  
     This is CurbIQ's ⚡*Curb API*⚡ to access curb demand and supply data in the 
     Open Mobility Foundation's Curb Data Specification (CDS) format.
     
