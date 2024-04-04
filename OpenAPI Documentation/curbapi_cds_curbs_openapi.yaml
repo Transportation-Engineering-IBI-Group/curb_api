@@ -53,9 +53,9 @@ paths:
           - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
-          - This endpoint is **paginated**. For information on the pagination response format,
-            see the schema in `#/components/schemas/PaginationInfo'.
-            
+          - This endpoint is **paginated**. Visit our [pagination section](#/schemas/PaginationInfo) 
+            for more information on paginating with the Curb API.
+
       parameters:
         - name: curbiq_token
           in: query
@@ -553,11 +553,11 @@ components:
         Users can check the current page number and the total number of pages
         in the response object.
 
-        When the response object is in JSON format, the response will include
+        - When the response object is in JSON format, the response will include
         the current page number and the total number of pages as variables
         'page_num' and 'total_pages', respectively.
 
-        When the response object is in CSV format, the file name will be in the format
+        - When the response object is in CSV format, the file name will be in the format
         "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv", indicating the current and total pages.
 
       properties:
