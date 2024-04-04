@@ -1,22 +1,19 @@
 openapi: 3.0.1
 info:
-  title: CurbIQ's Curb API
+  title: Curb API
   description: |
-
-    This is CurbIQ's ⚡ **Curb API** ⚡ to access curb demand and supply data in the 
-    Open Mobility Foundation's **Curb Data Specification** (CDS) format.
+    ### About
+    ⚡ **Curb API** is your one-stop shop for accessing curb supply and demand data ⚡
     
-
+    All data is formatted according to Open Mobility Foundation's **Curb Data Specification** (a.k.a. [**CDS**](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/README.md)).
     The API provides access to **curb supply**, **curb policies**, **real-time curb occupancy data**, 
-    and **hourly metrics** on curb usage by zone, area, or space. The API is secured with
-    an API key, which is provided to you when you register for the API.
+    and **hourly metrics** on curb usage by zone, area, or space. 
 
 
-    - To request access to the API, please 
-      <a href="mailto:contact@curbiq.io?subject=CurbIQ API Token Request">email us</a> and include *Curb API Token Request* in the subject line. 🔑 
+    ### Authentication 🔐
+    **Curb API** is secured with a `curbiq_token`, which is provided to you when you register for the API.
+      **To request a curbiq_token**, please email us at **contact@curbiq.io** and include *Curb API Token Request* in the subject line.  
 
-
-    - For more information on the **Curb Data Specification**, visit the [CDS Github repo](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/README.md). 📐
 
 
   version: 1.3.0
@@ -27,7 +24,7 @@ info:
     
 servers:
   - url: https://yzij4d8qel.execute-api.ca-central-1.amazonaws.com/v1
-    description: CurbIQ's Curb API
+    description: Curb API
 
 
 tags:
@@ -46,16 +43,16 @@ paths:
         - api_key: []
       summary: zones
       description: |
-        Query curb ***zones*** by geography, city, id, etc.
+        Query curb ***zones*** by geography, city, id, etc. 🔎
         
         ---
 
         #### Useful Tips
-          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+          - In [CDS](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/general-information.md#timestamp), time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
           - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
-            for more information on paginating with the Curb API.
+            for more information on paginating with **Curb API**.
 
       parameters:
         - name: curbiq_token
@@ -63,7 +60,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The CurbIQ token provided to you when you registered for the API.
+          description: The API token provided to you when you registered for the API.
         - name: lat
           in: query
           schema:
@@ -87,7 +84,7 @@ paths:
           description: |
             The radius of the query circle in centimeters.
             
-            CurbIQ also supports the following alternative radius parameters:
+            **Curb API** also supports the following alternative radius parameters:
             rad_mi (miles), rad_km (kilometers), rad_m (meters).
         - name: min_lat
           in: query
@@ -132,7 +129,8 @@ paths:
           description: |
             The maximum size of the response.
             
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
         - name: page_num
           in: query
           schema:
@@ -141,7 +139,8 @@ paths:
           description: |
             The page number for paginated responses.
             
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
         - name: city_name
           in: query
           schema:
@@ -161,7 +160,7 @@ paths:
             type: number
             format: integer
           required: false
-          description: The CurbIQ segment of the curb zone to query.
+          description: The CurbIQ segment_id of the curb zone to query.
         - name: parking_angle
           in: query
           schema:
@@ -199,11 +198,11 @@ paths:
         ---
 
         #### Useful Tips
-          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+          - In [CDS](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/general-information.md#timestamp), time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
           - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
-            for more information on paginating with the Curb API.
+            for more information on paginating with **Curb API**.
 
 
       operationId: getCurbPolicies
@@ -215,7 +214,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The CurbIQ token provided to you when you registered for the API.
+          description: The CurbIQ API token provided to you when you registered for the API.
         - name: ids
           in: query
           required: false
@@ -247,7 +246,7 @@ paths:
           description: |
             The radius of the query circle in centimeters.
             
-            CurbIQ also supports the following alternative radius parameters:
+            **Curb API** also supports the following alternative radius parameters:
             rad_mi (miles), rad_km (kilometers), rad_m (meters).
         - name: min_lat
           in: query
@@ -255,35 +254,35 @@ paths:
             type: number
             format: float
           required: false
-          description: For querying all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
+          description: For querying policies associated with all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
         - name: min_lng
           in: query
           schema:
             type: number
             format: float
           required: false
-          description: For querying all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
+          description: For querying policies associated with all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
         - name: max_lat
           in: query
           schema:
             type: number
             format: float
           required: false
-          description: For querying all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
+          description: For querying policies associated with all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
         - name: max_lng
           in: query
           schema:
             type: number
             format: float
           required: false
-          description: For querying all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
+          description: For querying policies associated with all zones within a bounding box. If any of 'min_lat', 'min_lng', 'max_lat', or 'max_lng' are specified, all must be.
         - name: time
           in: query
           schema:
             type: number
             format: int
           required: false
-          description: Only Curb Zone objects whose validity period includes this time will be returned; availability data (if supplied) will be returned as of this time.
+          description: Only Curb Policy objects whose validity period includes this time will be returned; availability data (if supplied) will be returned as of this time.
         - name: response_size
           in: query
           schema:
@@ -291,9 +290,10 @@ paths:
             format: int
           required: false
           description: |
-            The number of zone objects to return. Maximum is 100, default is 20.
+            The number of response objects to return. Maximum is 100, default is 20.
 
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
         - name: page_num
           in: query
           schema:
@@ -303,10 +303,11 @@ paths:
           description: |
             The page number for paginated responses. Default is 1.
             
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
       responses:
         '200':
-          description: A successful response containing Curb Zones.
+          description: A successful response containing Curb Policies.
         '400':
           'description': 'Request failed.'
       tags:
@@ -335,11 +336,11 @@ paths:
         ---
 
         **Useful Tips**
-          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+          - In [CDS](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/general-information.md#timestamp), time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
           - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
-            for more information on paginating with the Curb API.
+            for more information on paginating with **Curb API**.
 
 
                 
@@ -391,7 +392,8 @@ paths:
           description: |
             The size of the response. Default is 100, maximum is 250.
             
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
         - in: query
           name: page_num
           schema:
@@ -399,7 +401,8 @@ paths:
           description: |
             Page number for paginated responses. Default is 1.
 
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
       responses:
         '200':
           description: Successful response, returned as JSON.
@@ -430,11 +433,11 @@ paths:
         ---
 
         **Useful Tips**
-          - In CDS, time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
+          - In [CDS](https://github.com/openmobilityfoundation/curb-data-specification/blob/main/general-information.md#timestamp), time parameters are formatted as **epoch seconds** ("seconds since January 1, 1970 @ 0:00:00 UTC"). 
             You can use [EpochConverter](https://www.epochconverter.com/) to automatically convert between 
             date/times and epoch seconds.
           - This endpoint is **paginated**. Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
-            for more information on paginating with the Curb API.
+            for more information on paginating with **Curb API**.
 
 
       parameters:
@@ -515,7 +518,7 @@ paths:
           description: |
             The radius of the query circle in centimeters.
             
-            CurbIQ also supports the following alternative radius parameters:
+            **Curb API** also supports the following alternative radius parameters:
             rad_mi (miles), rad_km (kilometers), rad_m (meters).
         - in: query
           name: response_size
@@ -524,7 +527,8 @@ paths:
           description: |
             The maximum size of the response.
             
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
         - in: query
           name: page_num
           schema:
@@ -532,7 +536,8 @@ paths:
           description: |
             The page number for paginated responses.
             
-            See the pagination schema in `#/components/schemas/PaginationInfo'.
+            Visit our [pagination section](https://curbiq.io/curb-api#/schemas/PaginationInfo) 
+            for more information on paginating with **Curb API**.
 
       responses:
         '200':
@@ -559,7 +564,7 @@ components:
           `page_num` and `total_pages`, respectively.
 
         - When the response object is in CSV format, the file name will be in the format
-          "aggregates_{PAGE_NUM}_of_{TOTAL_PAGES}.csv", indicating the current and total pages.
+          "aggregates_{**PAGE_NUM**}_of_{**TOTAL_PAGES**}.csv", indicating the current and total pages.
 
       properties:
         response_size:
